@@ -18,6 +18,9 @@ public class Jugador {
 
     public void sumar(int puntos) {
         this.puntos += puntos;
+        if (this.puntos > 100) {
+            this.puntos = 100;
+        }
     }
 
 }
