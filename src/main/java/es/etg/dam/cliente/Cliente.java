@@ -46,13 +46,8 @@ public class Cliente {
         while (true) {
             String mensaje = Conexion.recibir(cliente);
 
-            if (mensaje.equals(MSG_PERDIDO)) {
-                System.out.println(MSG_PERDIDO);
-                break;
-            }
-
-            if (mensaje.equals(MSG_GANADO)) {
-                System.out.println(MSG_GANADO);
+            if (mensaje.equals(MSG_PERDIDO) || (mensaje.equals(MSG_GANADO))) {
+                System.out.println(mensaje);
                 break;
             }
 
