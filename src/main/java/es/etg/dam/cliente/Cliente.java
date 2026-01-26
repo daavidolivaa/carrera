@@ -21,8 +21,7 @@ public class Cliente {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader teclado = new BufferedReader(
-                new InputStreamReader(System.in));
+        BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.print(NOMBRE);
         String nombre = teclado.readLine();
