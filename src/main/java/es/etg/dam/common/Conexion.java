@@ -1,4 +1,4 @@
-package es.etg.dam.conexion;
+package es.etg.dam.common;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

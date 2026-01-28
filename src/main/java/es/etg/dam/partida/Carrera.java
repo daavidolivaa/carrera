@@ -4,17 +4,15 @@ import java.io.IOException;
 import java.util.Random;
 
 import es.etg.dam.cliente.Cliente;
-import es.etg.dam.conexion.Conexion;
+import es.etg.dam.common.Conexion;
 
 public class Carrera implements Runnable {
-    private final int NUM_RANGO = 10;
-    private final int NUM_PUNTOS = 100;
-    private final int UNO = 1;
-    private final int TIEMPO = 2000;
+    private static final int MAX_PUNTOS = 100;
+    private static final int MAX_AVANCE = 10;
+    private static final int TIEMPO = 2000;
+    private static final int UNO = 1;
     private final String PUNTOS = ":";
     private final String BARRA = "|";
-
-    private final Random random = new Random();
 
     private Jugador[] jugadores;
 
@@ -27,7 +25,7 @@ public class Carrera implements Runnable {
         try {
             Thread.sleep(TIEMPO);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         Jugador ganador = null;
@@ -40,7 +38,7 @@ public class Carrera implements Runnable {
             } catch (IOException ex) {
             }
 
-            if (j.getPuntos() >= NUM_PUNTOS) {
+            if (j.getPuntos() >= MAX_PUNTOS) {
                 ganador = j;
             }
         }
@@ -49,7 +47,7 @@ public class Carrera implements Runnable {
 
     private Jugador avanzar() {
         int jug = random.nextInt(Servidor.NUM_JUG);
-        int puntos = random.nextInt(NUM_RANGO) + UNO;
+        int puntos = random.nextInt(MAX_AVANCE) + UNO;
         jugadores[jug].sumar(puntos);
         return jugadores[jug];
     }

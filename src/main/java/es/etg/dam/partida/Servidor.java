@@ -5,30 +5,35 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import es.etg.dam.cliente.Cliente;
-import es.etg.dam.conexion.Conexion;
+import es.etg.dam.common.Conexion;
 
 public class Servidor {
 
-    static final int PUERTO = 8888;
+    public static final String HOST = "localhost";
+    public static final int PUERTO = 8888;
     public final static int NUM_JUG = 4;
-    private final static String JUG = "Jugador registrado: ";
+    private final static String MSG_JUGADOR_REGISTRADO = "Jugador registrado: %s";
 
     public static void main(String[] args) throws IOException {
 
-        Jugador[] jugadores = new Jugador[NUM_JUG];
-        ServerSocket server = new ServerSocket(PUERTO);
+        try (ServerSocket server = new ServerSocket(PUERTO)) {
 
-        for (int i = 0; i < NUM_JUG; i++) {
-            Socket socket = server.accept();
-            String nombre = Conexion.recibir(socket);
-            Conexion.enviar(Cliente.OK, socket);
+            while (true) {
+                Jugador[] jugadores = new Jugador[NUM_JUG];
 
-            jugadores[i] = new Jugador(nombre, socket);
-            System.out.println(JUG + nombre);
+                for (int i = 0; i < NUM_JUG; i++) {
+                    Socket socket = server.accept();
+                    String nombre = Conexion.recibir(socket);
+                    Conexion.enviar(Cliente.OK, socket);
+
+                    jugadores[i] = new Jugador(nombre, socket);
+                    System.out.println(String.format(MSG_JUGADOR_REGISTRADO, nombre));
+                }
+
+                Thread carrera = new Thread(new Carrera(jugadores));
+                carrera.start();
+
+            }
         }
-
-        Thread carrera = new Thread(new Carrera(jugadores));
-        carrera.start();
-
     }
 }
